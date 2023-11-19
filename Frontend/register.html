@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -69,5 +69,121 @@
         <button type="submit">Register</button>
     </form>
     <p>{{ msg }}</p>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        p {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    <form method="POST" action="/register" id="registerForm">
+        <label for="mail">Email:</label>
+        <input type="email" id="mail" name="mail" required>
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="passwd">Password:</label>
+        <input type="password" id="passwd" name="passwd" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+    
+    <p id="errorMsg">{{ msg }}</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerForm = document.getElementById('registerForm');
+            const errorMsg = document.getElementById('errorMsg');
+
+            registerForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const mail = document.getElementById('mail').value;
+                const username = document.getElementById('username').value;
+                const passwd = document.getElementById('passwd').value;
+
+                // Add client-side validation if needed
+                // Example: Check if the fields are not empty
+
+                // Send registration data to the server using Fetch API
+                fetch('http://localhost:8000/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ mail: mail, username: username, passwd: passwd }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Registration response:', data);
+                    // Check the response from the server and display an error message if needed
+                    if (data.error) {
+                        errorMsg.innerText = data.error;
+                    } else {
+                        // Redirect to the login page or perform other actions on successful registration
+                        window.location.href = '/login'; // Adjust the URL as needed
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during registration:', error);
+                    // Handle errors, e.g., display an error message to the user
+                });
+            });
+        });
+    </script>
 </body>
 </html>

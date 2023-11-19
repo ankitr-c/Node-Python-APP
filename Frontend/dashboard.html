@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -53,5 +53,99 @@
             {% endfor %}
         </tbody>
     </table>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dashboard</h2>
+    <button id="regenerateButton" onclick="regenerateScore()">Regenerate Score</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, score in data.items() %}
+                <tr>
+                    <td>{{ username }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function regenerateScore() {
+            // Generate a random number (you can customize the range as needed)
+            var randomScore = Math.floor(Math.random() * 100);
+
+            // Send a request to the 'update' API
+            fetch('http://localhost:8000/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ score: randomScore }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Score regenerated successfully:', data);
+                // You can update the UI or take other actions based on the response
+            })
+            .catch((error) => {
+                console.error('Error regenerating score:', error);
+            });
+        }
+    </script>
 </body>
 </html>
